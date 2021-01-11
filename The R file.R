@@ -50,11 +50,61 @@ ggplot(data = mpg) +
 ggplot(data = Orange) +
   geom_point(mapping = aes(x = age, y = circumference, color = Tree))
 
-# Also, note that to check a collection of preinstalled data sets, run data()
+# Also, note that to check a collection of pre-installed data sets, run data()
 
 
+# Now, we can split the data even further by making a separate graph for each of the
+# value for some discrete feature. Note that after ~, we write a function, and we use 
+# nrow to have a better split data
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+
+# Also, I would like to check if that allows for custom data selection
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ (year > 1999), nrow = 1)
+# From the produced graph we can see that I was right and this way we can split
+# the data into more custom parts
+
+# Now we can also facet on 2 features
+# Note that to use this feature, we have to use facet_grid and
+# not facet_wrap like in the case with 1 variable
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl)
+
+# Also, you can use . to display the graphs in cols/rows
+# In this case, the first feature represents the columns and second is rows 
+# thus, by putting cyl in the second part, we say that we would like the graphs 
+# to be displayed in a row.
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(. ~ cyl)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ .)
 
 
+# Now, we can create graphs with different geoms, aka, different
+# types of graphs
 
+# for example, a scatterplot is created with geom_point
+# a fitted line can be drawn using geom_smooth
+# Example:
 
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
 
+# Observe that there are aestetics in _smooth that _point does not have.
+# For example, linetype. Thus, you have to carefully "study" each geom before using it
+# the list of all geoms with their aes features can be found in https://exts.ggplot2.tidyverse.org/gallery/
+
+# Also, we can layer different geoms on top of each other:
+ggplot(mapping = aes(x = displ, y = hwy), data = mpg) + 
+  geom_point() +
+  geom_smooth(color = "red")
+
+# There is a WARNING coming up that I don't know how to fix yet but the graph looks correct
