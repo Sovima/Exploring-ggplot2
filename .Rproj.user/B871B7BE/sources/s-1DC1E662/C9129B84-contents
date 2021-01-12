@@ -108,3 +108,56 @@ ggplot(mapping = aes(x = displ, y = hwy), data = mpg) +
   geom_smooth(color = "red")
 
 # There is a WARNING coming up that I don't know how to fix yet but the graph looks correct
+
+
+# If you don't feel like coloring each category, you can use the feature group:
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv))
+
+
+# However, this might introduce conflicts and duplicates as to change 1 value
+# for example, x we woul have to change it everywhere it appears in the code.
+# to avoid this, we can collect all common information in the ggplot part:
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+# this doesn't mean you can include any custom aestetics
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class), show.legend = FALSE) + 
+  geom_smooth()
+
+# Note that the local argument overrides the global argument.
+
+# Now, we can combine different data sets(data features) in the same graph
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+
+# So, I was a bit confused at first but I figured it out. In geom_smooth we still keep the aes part
+# as indicated in ggplot because it is not overwritten. However, we overwrite the data variable,
+# creating a smooth line only for data where class == "subcompact". Also se = FALSE tells us to
+# not display the confidence interval. 
+
+# You can use other geoms as well
+ggplot(data = mpg) +
+  geom_line(mapping = aes(x = displ, y = hwy))
+
+# Bar doesn't have y value as it's based on count
+ggplot(data = mpg) +
+  geom_bar(mapping = aes(x = displ))
+
+ggplot(data = mpg) +
+  geom_rug(mapping = aes(x = displ, y = hwy))
+
+# After examining the graph, it looks like this geom displayes the density of each
+# feature on the side of the graph. Hence, it would make sense to combine it with 
+# the point geom. Example:
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() + 
+  geom_rug()
+
+# I think this would be most useful when height-wise density is important. For example,
+# like in DNA gel electrophoresis analysis. 
