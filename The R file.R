@@ -161,3 +161,76 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 # I think this would be most useful when height-wise density is important. For example,
 # like in DNA gel electrophoresis analysis. 
+
+
+# 
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy))+
+  geom_point(mapping = aes(color = drv)) +
+  geom_smooth(mapping = aes(linetype = drv))
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy))+
+  geom_point(mapping = aes(size = 16), show.legend = FALSE) +
+  geom_smooth(mapping = aes(group = drv), se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy))+
+  geom_point(mapping = aes(color = drv), size = 1, show.legend = FALSE) +
+  geom_smooth(mapping = aes(color = drv, group = drv), se = FALSE)
+
+
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy))+
+  geom_point(color = "white", size = 3) +
+  geom_point(mapping = aes(color = drv), size = 1)
+
+# Note: we can use geom_bar to draw a bar graph
+# Now, to display the functionality of bar plots, we will be using the pre-loaded 
+# Diamonds dataset
+
+# Also, interestingly, to add a title, we need another geom
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut)) +
+  ggtitle("Diamond Cuts")+
+  theme(plot.title = element_text(hjust = 0.5))
+# The last line allows for centered alignment as the title is located on the left
+# side by default
+
+# Here, as for every bar plot, we see the groups on the bottom, and 
+# the count on the left. 
+
+# we can also achieve the same result by using stat_count
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
+
+# However, there are cases in which we would use stat over a geom:
+# For example
+demo <- tribble(
+  ~cut,         ~freq,
+  "Fair",       1610,
+  "Good",       4906,
+  "Very Good",  12082,
+  "Premium",    13791,
+  "Ideal",      21551
+)
+
+ggplot(data = demo) +
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+# Stat identity part corresponds to how will the data be transformed which 
+# in this case is just a direct x - y relationship as our data already contains 
+# the count values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
