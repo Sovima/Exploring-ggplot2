@@ -3,7 +3,7 @@
     "path": "~/Documents/GitHub/Exploring-ggplot2/The R file.R",
     "project_path": "The R file.R",
     "type": "r_source",
-    "hash": "2334678377",
+    "hash": "4111564458",
     "contents": "",
     "dirty": false,
     "created": 1610241183963.0,
@@ -11,15 +11,15 @@
     "relative_order": 1,
     "properties": {
         "tempName": "Untitled1",
-        "cursorPosition": "212,1",
-        "scrollLine": "190"
+        "cursorPosition": "278,35",
+        "scrollLine": "257"
     },
     "folds": "",
-    "lastKnownWriteTime": 1610555355,
+    "lastKnownWriteTime": 1610639039,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1610555355227,
+    "last_content_update": 1610639039799,
     "read_only": false,
     "read_only_alternatives": []
 }

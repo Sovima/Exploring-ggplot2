@@ -218,17 +218,65 @@ ggplot(data = demo) +
 # in this case is just a direct x - y relationship as our data already contains 
 # the count values
 
+# Then, to create even more customization, it is possible to override the 
+# default stat and use something else. For example, to create a bar chart 
+# of proportions, we would use the following:
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
 
 
+# Now, we can also create a graphical summary of the data:
 
+# For example, the following graph is 
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min, # The following 3 features are constructed from the 
+    fun.max = max, # y-values. That is, min, max, and med of depth
+    fun = median
+  )
 
+# More stats can be found in official R cheat sheets
 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = after_stat(prop)))
 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = after_stat(prop), group = 1))
+# We must include group = 1 because otherwise, the geom assumes all 
+# groups have the same y-value aka, height. 
 
+# Now, we will add some color. 
+# There are 2 ways that we can color our bar plot
+# First, is coloring each bar with a different color to emphasize
+# each group.
 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut))
 
+# The second, is to color by a third argument. This will show what proportion 
+# of each bar corresponds to each category of that third feature
 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..), fill = color))
 
+# As you can observe, the graph produced by the function above is stacked
+# However, there are more options for how the rectangles are positioned
+# we can change them by changing the positional argument:
+# Note that it is not part of the aestetic
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..), fill = color),
+                         position = "identity")
+# However, this is not very useful for this type of barplots as the boxes are 
+# put on top of each other
+
+# We can see more of this by changing the alpha argument 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..count../sum(..count..), fill = color),
+           position = "identity", alpha = 0.5)
+# Now, the overlap is more apparent
 
 
 
