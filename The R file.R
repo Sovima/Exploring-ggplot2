@@ -278,7 +278,67 @@ ggplot(data = diamonds) +
            position = "identity", alpha = 0.5)
 # Now, the overlap is more apparent
 
+# There are a few ways to avoid this:
+# Firstly, we can stack the columns not on top but beside each other. 
+# that way we can compare individual columns within the stack as well
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+# The position agrument is responsible for this way of stacking
+
+# Also, we can have each feature stacked on top of others using fill
+# agrument but that will make the bars of equal heights. Thus, is allows
+# to compare what proportion of each bar goes to which feature.
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+
+# on scatter plots that we have built previously, the values are actually 
+# rounded which decreases the amount of dots we see and it also changes
+# the proportions we see as many dots now overlap. To change that, we need
+# once again, chnage the positional argument:
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+
+# Note that this does not not-round the data but raher adds randomness to each point. 
+# Hence, each individual dot is now visible and while it might create some innacuracies
+# on a small scale, it allows us to find large collections of points on a large scale
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")
+
+ggplot(data = mpg, mapping = aes(x = cty, group = drv))+
+  geom_boxplot()
+
+# While by default there is a cartesian system assigned to the plots,
+# there are other ones that can be applied when necessary. Example:
+
+# coord_flip() flips the x and y coordinates, changing the orientation
+# of the graph
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot() +
+  coord_flip()
+
+# coord_polar() creates a round coordinate system. Visually, it allows 
+# to exaggerate the proportions
+
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = cut, fill = cut), 
+    show.legend = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+
+bar + coord_polar()
+
+# we can also use this to create a pie chart. We would only have to create pieces
+# of equal radii. We can do that by setting theta="y"
+
+ggplot(mpg, aes(x = factor(1), fill = drv)) +
+  geom_bar(width = 1) +
+  coord_polar(theta = "y")
 
 
-
-  
